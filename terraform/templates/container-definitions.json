@@ -1,0 +1,35 @@
+[
+    {
+        "name": "${name}",
+        "image": "${image}",
+        "essential": true,
+        "cpu": 512,
+        "memory": 2048,
+        "memoryReservation": 1024,
+        "environment": [
+            {
+                "name": "S3_TARGET_BUCKET", 
+                "value": "${s3_target_bucket}"}
+        ],
+        "secrets": [
+            {
+                "name": "DROPBOX_RCLONE_CONFIG",
+                "valueFrom": "${dropbox_rclone_config}"
+            }
+        ],
+        "mountPoints": [
+            {
+                "containerPath": "/data/efs",
+                "sourceVolume": "efs-vol"
+            }
+        ],
+        "logConfiguration": {
+            "logDriver": "awslogs",
+            "options": {
+                "awslogs-group": "${log_group_name}",
+                "awslogs-region": "${log_group_region}",
+                "awslogs-stream-prefix": "api"
+            }
+        }
+    }
+]
